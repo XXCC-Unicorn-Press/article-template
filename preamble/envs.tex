@@ -1,0 +1,78 @@
+\usepackage{keytheorems}
+\usepackage[nameinlink]{cleveref}
+
+%% Helpers for theorem styles and environments.
+%% NOTE: cleveref doesn't work well with \newtheorem{...}[theorem]{...},
+%%   so we use aliascnt to create theorem environments that share the same counter as the main theorem environment.
+\newcounter{thmenvcnt}[section]
+\renewcommand{\thethmenvcnt}{\thesection.\arabic{thmenvcnt}}
+
+% Create a new theorem environment that shares the counter.
+%   #1 - the name of the new environment
+%   #2 - the title of the new environment
+%   #3 - (optional) the ending symbol for the environment (defaults to empty)
+%   #4 - (optional) the cref name (defaults to \MakeLowercase{#2})
+%   #5 - (optional) the cref plural name (defaults to #4 + 's')
+%   #6 - (optional) the Cref name (defaults to #2)
+%   #7 - (optional) the Cref plural name (defaults to #6 + 's')
+\NewDocumentCommand{\newtheoremalias}{m m O{} O{\MakeLowercase{#2}} O{#4s} O{#2} O{#6s}}{%
+  \newkeytheorem{#1}[
+    title={#2},
+    sibling=thmenvcnt,
+    refname={#4,#5},
+    Refname={#6,#7},
+    qed={#3} 
+  ]
+  \newkeytheorem{#1*}[
+    title={#2},
+    numbered=no,
+  ]
+}
+
+%% Theorem styles.
+\newtheoremstyle{sans-plain}
+  {\topsep}
+  {\topsep}
+  {\itshape}
+  {}
+  {\sffamily\bfseries}
+  {.}
+  {.5em}
+  {}
+\newtheoremstyle{sans-definition}
+  {\topsep}
+  {\topsep}
+  {\normalfont}
+  {}
+  {\sffamily\bfseries}
+  {.}
+  {.5em}
+  {}
+
+%% Theorem environments.
+\theoremstyle{sans-plain}
+\newtheoremalias{theorem}{Theorem}
+\newtheoremalias{lemma}{Lemma}
+\newtheoremalias{proposition}{Proposition}
+\newtheoremalias{corollary}{Corollary}[][corollary][corollaries][Corollary][Corollaries]
+
+\theoremstyle{sans-definition}
+\newtheoremalias{definition}{Definition}
+\newtheoremalias{example}{Example}
+\newtheoremalias{remark}{Remark}[$\lrcorner$]
+\newtheoremalias{question}{Question}
+\newtheoremalias{acknowledgement}{Acknowledgement}
+
+% todo notes
+\newcommand{\todo}[1]{%
+  \PackageWarning{TODO}{#1}%
+  \vskip0.5em%
+  \noindent\textcolor{red}{\textbf{TODO.}~#1}%
+  \vskip0.5em%
+}
+
+%% Cross-reference styles.
+\NewCommandCopy{\crefOrig}{\cref}
+\NewCommandCopy{\CrefOrig}{\Cref}
+\renewcommand{\cref}[1]{\textsf{\crefOrig{#1}}}
+\renewcommand{\Cref}[1]{\textsf{\CrefOrig{#1}}}

@@ -1,0 +1,117 @@
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{quiver}
+\usepackage[extdef]{delimset}
+\usepackage{mathtools}
+\usepackage{xcolor}
+
+% raise and scale math
+\NewDocumentCommand{\raisemath}{m}
+  {\mathpalette{\raisemathAux{#1}}}
+\NewDocumentCommand{\raisemathAux}{m m m}
+  {\raisebox{#1}{\(#2#3\)}}
+\NewDocumentCommand{\scalemath}{m O{}}
+  {\mathpalette{\scalemathAux{#1}[#2]}}
+\NewDocumentCommand{\scalemathAux}{m O{} m m}
+  {\IfBlankTF{#2}{\scalebox{#1}{\(#3#4\)}}{\scalebox{#1}[#2]{\(#3#4\)}}}
+
+% operator declarations
+\ExplSyntaxOn
+
+\NewDocumentCommand{\DeclareOps}{m}
+  {
+    \clist_map_inline:nn { #1 } {
+      \cs_set_protected:cpn { ##1 } { \operatorname{##1} }
+    }
+  }
+
+\NewDocumentCommand{\DeclareLimits}{m}
+  {
+    \clist_map_inline:nn { #1 } {
+      \cs_set_protected:cpn { ##1 } { \operatorname*{##1} }
+    }
+  }
+
+\NewDocumentCommand{\DeclareCats}{m}
+  {
+    \clist_map_inline:nn { #1 } {
+      \cs_set_protected:cpn { ##1 } { \mathbf{##1} }
+    }
+  }
+
+\NewDocumentCommand{\DeclareTexts}{m}
+  {
+    \clist_map_inline:nn { #1 } {
+      \cs_set_protected:cpn { ##1 } { \mathrm{##1} }
+    }
+  }
+
+\NewDocumentCommand{\DeclareBbs}{m}
+  {
+    \clist_map_inline:nn { #1 } {
+      \cs_set_protected:cpn { ##1 } { \mathbb{##1} }
+    }
+  }
+
+\NewDocumentCommand{\DeclareCals}{m}
+  {
+    \clist_map_inline:nn { #1 } {
+      \cs_set_protected:cpn { ##1##1 } { \mathcal{##1} }
+    }
+  }
+
+\NewDocumentCommand{\DeclareFraks}{m}
+  {
+    \clist_map_inline:nn { #1 } {
+      \cs_set_protected:cpn { ##1##1 } { \mathfrak{##1} }
+    }
+  }
+
+\ExplSyntaxOff
+
+% quotient
+%   #1 - raise amount for numerator (default: 0.2)
+%   #2 - negative space amount before slash (default: 1.7)
+%   #3 - numerator
+%   #4 - denominator
+\NewDocumentCommand{\quotient}{O{0.2} O{1.7} m m}{
+    \left.\mspace{-1mu}\raisemath{#1em}{#3}
+    \mspace{-#2mu} \middle/ \mspace{-\fpeval{#2+1}mu}
+    \raisemath{-#1em}{#4} \mspace{-\fpeval{5*#1}mu} \right.
+}
+
+% arrows
+\usepackage{stackengine}
+\newcommand{\doublestack}[1]{%
+  \mathrel{\vcenter{\hbox{%
+    \ensurestackMath{%
+      \stackon[1pt]{#1}{#1}%
+    }%
+  }}}%
+}
+\newcommand{\triplestack}[1]{%
+  \mathrel{\vcenter{\hbox{%
+    \ensurestackMath{%
+      \stackon[1pt]{#1}{%
+        \stackon[1pt]{#1}{#1}%
+      }%
+    }%
+  }}}%
+}
+\newcommand{\quadrustack}[1]{%
+  \mathrel{\vcenter{\hbox{%
+    \ensurestackMath{%
+      \stackon[1pt]{#1}{%
+        \stackon[1pt]{#1}{%
+          \stackon[1pt]{#1}{#1}%
+        }%
+      }%
+    }%
+  }}}%
+}
+\newcommand{\doublerightarrows}{\doublestack{\rightarrow}}
+\newcommand{\triplerightarrows}{\triplestack{\rightarrow}}
+\newcommand{\quadrurightarrows}{\quadrustack{\rightarrow}}
+\newcommand{\doubleleftarrows}{\doublestack{\leftarrow}}
+\newcommand{\tripleleftarrows}{\triplestack{\leftarrow}}
+\newcommand{\quadruleftarrows}{\quadrustack{\leftarrow}}

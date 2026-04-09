@@ -1,0 +1,190 @@
+\section{Features}
+
+This template provides an out-of-box experience for writing beautiful articles with \LaTeX.
+
+\subsection{Clean project structure}
+
+The project structure is organized as follows:
+\begin{itemize}
+  \item \texttt{main.tex}: The main entry point of the document.
+  \item \texttt{references.bib}: The bibliography file containing all the references used in the article.
+  \item \texttt{preamble/}: A directory containing various preamble files for different purposes, such as layout design, reference management, math formatting, etc.
+  \item \texttt{content/}: A directory containing the content of the article, organized into different sections and subsections.
+  \item \texttt{figures/}: A directory for storing all the figures used in the article.
+\end{itemize}
+
+By organizing the project in this way, it becomes easier to manage and maintain the document, especially as it grows in size and complexity.
+
+It is \textbf{recommended} that files are named in lowercase with hyphens as separators.
+For content files, they can be named according to the section names, such as \texttt{fermats-last-theorem.tex} for a section named ``Fermat's Last Theorem''.
+
+\subsection{Convenient figure management}
+\label{sec:convenient-figure-management}
+
+The \verb|\includegraphics| command can now recognize paths relative to \texttt{figures/} and \texttt{figures/inkscape} directories, without need to specify the full path.
+
+You can put your Inkscape source files in \texttt{figures/inkscape} and run \verb|./figures/inkscape/export.sh| to export all the \verb|.svg| files to \verb|.png| files, which can be included in the document directly.
+
+The figures are automatically centered, so there is no need to write \verb|\centering| every time.
+It is \textbf{recommended} to use \verb|[!ht]| as the figure placement specifier to allow more flexibility in figure placement.
+An example of including a figure is shown below (see \Cref{fig:example-figure} for the result):
+\begin{verbatim}
+\begin{figure}[!ht]
+  \includegraphics[width=0.5\textwidth]{example-image-golden}
+  \caption{An example figure.}
+  \label{fig:example-figure}
+\end{figure}
+\end{verbatim}
+
+\begin{figure}[!ht]
+  \includegraphics[width=0.5\textwidth]{example-image-golden}
+  \caption{An example figure.}
+  \label{fig:example-figure}
+\end{figure}
+
+Side captions are supported by the \texttt{floatrow} package, and you can use the \verb|\fcapside| command to create figures with side captions.
+Here is an example of how to use it (see \Cref{fig:figure-with-side-caption} for the result):
+\begin{verbatim}
+\begin{figure}[!ht]
+  \fcapside{
+    \caption[a figure with a side caption]{%
+      This is a figure with a side caption.
+
+      The caption is placed on the right side of the figure,
+        and it can be as long as you want.
+
+      You can also include multiple paragraphs in the caption,
+        and it will be formatted nicely.
+    }
+    \label{fig:figure-with-side-caption}
+  }{
+    \includegraphics[width=0.4\textwidth]{example-image-golden}
+  }
+\end{figure}
+\end{verbatim}
+
+\begin{figure}[!ht]
+  \fcapside{
+    \caption[a figure with a side caption]{%
+      This is a figure with a side caption.
+
+      The caption is placed on the right side of the figure,
+        and it can be as long as you want.
+
+      You can also include multiple paragraphs in the caption,
+        and it will be formatted nicely.
+    }
+    \label{fig:figure-with-side-caption}
+  }{
+    \includegraphics[width=0.4\textwidth]{example-image-golden}
+  }
+\end{figure}
+
+\subsection{Powerful math macro helpers}
+
+The template provides many powerful macros to help you write math more conveniently and beautifully.
+
+\subsubsection{Math macros declaration}
+
+The \verb|\Declare...| macros allow you to declare new math operators, categories, texts, and mathcal symbols with a simple syntax.
+For example, if you want to define \verb|\CC| to be \verb|\mathcal{C}|, you can simply write \verb|\DeclareCals{C}|.
+See \Cref{tab:math-macros-declaration-helpers} for a summary of the available macros and their usage.
+
+\begin{table}[!ht]
+  \centering
+
+  \begin{tabular}{llll}
+    \hline\hline
+    \textbf{Helper macro} & \textbf{Usage} & \textbf{Defined macro} & \textbf{Definition} \\
+    \hline
+    \verb|\DeclareOps| & \verb|\DeclareOps{Hom}| & \verb|\Hom| & \verb|\operatorname{Hom}| \\
+    \verb|\DeclareLimits| & \verb|\DeclareLimits{colim}| & \verb|\colim| & \verb|\operatorname*{colim}| \\
+    \verb|\DeclareCats| & \verb|\DeclareCats{Set}| & \verb|\Set| & \verb|\mathbf{Set}| \\
+    \verb|\DeclareTexts| & \verb|\DeclareTexts{Spec}| & \verb|\Spec| & \verb|\mathrm{Spec}| \\
+    \verb|\DeclareBbs| & \verb|\DeclareBbs{R}| & \verb|\R| & \verb|\mathbb{R}| \\
+    \verb|\DeclareCals| & \verb|\DeclareCals{C}| & \verb|\CC| & \verb|\mathcal{C}| \\
+    \verb|\DeclareFraks| & \verb|\DeclareFraks{g}| & \verb|\gg| & \verb|\mathfrak{g}| \\
+    \hline\hline
+  \end{tabular}
+
+  \caption{Math macros declaration helpers.}
+  \label{tab:math-macros-declaration-helpers}
+\end{table}
+
+\subsubsection{Custom quotient macro}
+
+The \verb|\quotient| macro allows you to render pretty quotient expressions with customizable spacing and alignment.
+For example, \verb|\quotient{X}{\sim}| renders as $\quotient{X}{\sim}$.
+
+The full syntax of the \verb|\quotient| macro is as follows:
+\begin{verbatim}
+  \quotient
+    [<raise amount for numerator>] % default: 0.2
+    [<negative space amount before slash>] % default: 1.7
+    {<numerator>}
+    {<denominator>}
+\end{verbatim}
+
+\subsubsection{Stacked arrows}
+
+The \verb|\doublestack|, \verb|\triplestack|, and \verb|\quadrustack| macros allow you to stack multiple symbols on top of each other with customizable spacing.
+When the stacked symbols are \verb|\leftarrow| or \verb|\rightarrow|, there are shortcuts \verb|\doubleleftarrows|, \verb|\doublerightarrows|, etc.
+Here is the effect:
+\[
+  A \to B \doublerightarrows C \triplerightarrows D \quadrurightarrows E
+\]
+
+\subsection{Environments and cross-references}
+
+The template provides out-of-box environments for theorems, definitions, examples, remarks, etc., with a clean and elegant design.
+Use \verb|\begin{theorem} ... \end{theorem}| to create a theorem environment, and similarly for other environments.
+Each environment has a starred version that is unnumbered, e.g., \verb|\begin{theorem*} ... \end{theorem*}|.
+
+You can add an optional argument (e.g. \verb|\begin{theorem}[Fermat's Last Theorem]|) to specify a custom title for the environment, which will be displayed after the environment name and number.
+
+To refer to these environments, first label them with \verb|\label{...}| after the \verb|\begin{...}| command, and then use \verb|\cref{...}| or \verb|\Cref{...}| to refer to them.
+The \verb|\cref| command produces a lowercase reference, while \verb|\Cref| produces a capitalized reference.
+These macros can also handle multiple references at once, e.g. \verb|\cref{thm1,thm2}| will produce a reference to both \texttt{thm1} and \texttt{thm2}.
+
+See \Cref{fig:theorem-environments-and-cross-references} for an example of using these environments and cross-references.
+
+\begin{figure}[!ht]
+  \begin{tcblisting}{
+    bicolor,
+    width=0.9\textwidth,
+    colback=gray!10,
+    colbacklower=white,
+    colframe=black!75,
+  }
+\begin{theorem} \label{thm:example-theorem}
+  This is a numbered theorem.
+\end{theorem}
+
+\begin{theorem*}
+  This is an unnumbered theorem.
+\end{theorem*}
+
+\begin{theorem}[Fermat's Last Theorem] \label{thm:fermats-last-theorem}
+  There are no positive integers $a$, $b$, and $c$ such that $a^n + b^n = c^n$ for any integer $n > 2$.
+\end{theorem}
+
+You can refer to the theorems above using \verb|\cref|: \cref{thm:example-theorem} and \verb|\Cerf|: \Cref{thm:example-theorem}.
+You can also refer to several theorems at once: \cref{thm:example-theorem,thm:fermats-last-theorem}.
+  \end{tcblisting}
+
+  \caption{Example of theorem environments and cross-references.}
+  \label{fig:theorem-environments-and-cross-references}
+\end{figure}
+
+\subsection{Beautiful layout and typography}
+
+The template provides out-of-box layout and typography settings that are designed to be clean, elegant, and easy to read.
+Here are most of the features:
+\begin{itemize}
+  \item A4 paper size with reasonable margins.
+  \item Reasonable line spacing and paragraph spacing for better readability.
+  \item Fancy headers and footers that display the section name and page numbers.
+  \item Beautiful title styles for sections and subsections.
+  \item A clean and elegant design for the table of contents.
+  \item Special design for bibliography section, with index in typewriter font and data like arXiv, DOI, etc. displayed in a new line for better readability.
+\end{itemize}

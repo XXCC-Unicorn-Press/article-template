@@ -1,0 +1,34 @@
+name: Build and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Build LaTeX Document
+        uses: xu-cheng/texlive-action@v3
+        with:
+          os: alpine # Use Alpine for a smaller image
+          run: |
+            latexmk
+        
+      - name: Export Files for GitHub Pages
+        run: |
+          mkdir -p target
+          cp main.pdf LICENSE target/
+          cd target
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./target

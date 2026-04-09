@@ -1,0 +1,30 @@
+%% Set up cross-referencing and hyperlinks.
+\usepackage{hyperref}
+\hypersetup{
+  linktoc = all,
+  colorlinks = true,
+  citecolor = black,
+  linkcolor = black,
+  urlcolor = [rgb]{0.82,0.25,0.08},
+  pdfborder = {0 0 0},
+  pdflinkmargin = 1.0pt,
+  pdfdisplaydoctitle,
+  pdftitle = {\doctitlestring},
+  pdfauthor = {\docauthor},
+}
+
+%% Set up citation style.
+
+% biblatex configuration
+\usepackage[style=numeric, sorting=none, backend=biber]{biblatex}
+\DeclareFieldFormat{labelnumberwidth}{\texttt{\mkbibbrackets{#1}}}
+\DeclareFieldFormat{url}{\newline\texttt{URL: }\url{#1}}
+\DeclareFieldFormat{doi}{\newline\texttt{DOI: }\href{https://doi.org/#1}{\nolinkurl{#1}}}
+\DeclareFieldFormat{eprint:arxiv}{\newline\texttt{arXiv: }\href{https://arxiv.org/abs/#1}{\nolinkurl{#1}}}
+
+% bibliography file
+\addbibresource{references.bib}
+
+% \cite style
+\NewCommandCopy{\mkbibbracketsOrig}{\mkbibbrackets}
+\renewcommand{\mkbibbrackets}[1]{\texttt{\mkbibbracketsOrig{#1}}}

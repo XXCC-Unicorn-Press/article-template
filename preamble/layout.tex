@@ -84,7 +84,8 @@
 
 % Custom macro to show the contents.
 \newcommand{\makecontents}{%
-  \hypersetup{hidelinks}%
-  \tableofcontents%
+  {%
+    \hypersetup{hidelinks}%
+    \tableofcontents%
+  }%
 }
-

@@ -1,0 +1,105 @@
+\section{Some tips}
+
+This section provides some tips for article writing.
+It is \textbf{strongly recommended} to read this section before writing your article.
+
+\subsection{Filename convention}
+
+In \LaTeX\ project, it is a good practice to name files according to the following convention:
+\begin{itemize}
+  \item Use only lowercase letters, numbers, and hyphens (no spaces, underscores, or special characters).
+  \item Make the filename descriptive and concise, reflecting the content of the file.
+  \item Name after the section name if the file contains a specific section.
+\end{itemize}
+Here are some examples of good filenames:
+\begin{itemize}
+  \item \texttt{introduction.tex}
+  \item \texttt{some-tips.tex}
+  \item \texttt{fermats-last-theorem.tex}
+  \item \texttt{portrait-of-shakespeare.png}
+\end{itemize}
+Here are some examples of bad filenames:
+\begin{itemize}
+  \item \texttt{section1.tex} (not descriptive, and the index may change)
+  \item \texttt{some tips.tex} (contains spaces)
+  \item \texttt{fermat's-last-theorem.tex} (contains apostrophe)
+  \item \texttt{portrait-of-Shakespeare.png} (contains uppercase letters)
+\end{itemize}
+
+\subsection{Cross-references}
+
+When you need to refer to a section, figure, theorem, or any other numbered element in your article, it is best to use \textbf{cross-references} instead of hardcoding the numbers. This way, if you add or remove sections or figures, the references will automatically update.
+
+To create a cross-reference, you need to \emph{label} the element you want to refer to, and then \emph{refer} to it.
+
+To label an element, use \verb|\label{...}| command immediately after the element you want to label.
+If the element is a theorem (or other similar environment), you should place the \verb|\label{...}| command right after the \verb|\begin{...}| command.
+If the element is a figure, you should place the \verb|\label{...}| command right after the \verb|\caption{...}| command.
+
+To refer to a labeled element, use the \verb|\Cref{...}| command, which will automatically insert the correct number and the appropriate name (e.g., ``Section'', ``Figure'', ``Theorem'') based on the type of the labeled element.
+
+It is a good practice to use a consistent prefix for labels to indicate the type of element being labeled. For example:
+\begin{itemize}
+  \item \texttt{sec:} for sections (e.g., \texttt{sec:introduction})
+  \item \texttt{fig:} for figures (e.g., \texttt{fig:example})
+  \item \texttt{thm:} for theorems (e.g., \texttt{thm:example})
+\end{itemize}
+
+Similar to filenames, the labels should be descriptive and concise, reflecting the content of the element being labeled, and they should be named in kebab-case.
+
+\Cref{fig:cross-references} is an example of how to use cross-references in \LaTeX.
+
+\begin{figure}[!ht]
+  \begin{tcblisting}{listing only}
+\section{Introduction}
+\label{sec:introduction} % section name is often long, so we put \label on the next line
+
+\begin{figure}
+  \includegraphics{example-image-golden}
+  \caption{An example figure.}
+  \label{fig:example} % caption is often long, so we put \label on the next line
+\end{figure}
+
+\begin{theorem} \label{thm:example} % we put \label right after \begin{theorem}
+  This is an example theorem.
+\end{theorem}
+
+In \Cref{sec:introduction}, we display an example figure in \Cref{fig:example} and state an example theorem in \Cref{thm:example}.
+  \end{tcblisting}
+
+  \caption{An example of using cross-references.}
+  \label{fig:cross-references}
+\end{figure}
+
+\subsection{Citations}
+
+When you need to cite a reference in your article, it is best to use \textbf{citation keys} instead of hardcoding the reference information. This way, if you need to change the reference information (e.g., author name, title, year), you can simply update the bibliography file, and all citations will automatically update.
+
+Suppose you have a bibliography item in your \texttt{references.bib} file like this:
+\begin{tcblisting}{listing only}
+@book{example-book,
+  author = {A Person},
+  title = {A Book},
+  % ... other info ...
+}
+\end{tcblisting}
+You can cite this reference in your article using \verb|\cite{example-book}| command.
+This will automatically insert the correct citation index wrapped by brackets (e.g., \texttt{[1]}).
+You can also specify some additional data by typing \verb|\cite[...]{example-book}|, and the additional data will be included in the brackets (e.g., \texttt{[1, Section 2.1]}).
+
+\subsection{Figures}
+
+Figures can be inserted by using \verb|\begin{figure} ... \end{figure}| environment.
+In this environment, there are usually three lines:
+\begin{itemize}
+  \item \verb|\includegraphics|, which specifies the image to insert and its size.
+  \item \verb|\caption|, which specifies the caption of the figure.
+  \item \verb|\label|, which specifies the label for cross-referencing the figure.
+\end{itemize}
+Remember to place the \verb|\label| command right after the \verb|\caption| command, so that the cross-reference will display the correct figure number.
+
+If your caption has multiple paragraphs (contain a blank line), you have to specify a short caption by using \verb|\caption[Short caption]{Long caption}|.
+Otherwise, it will cause an error.
+
+You may also want to use side captions for your figures.
+See \Cref{sec:convenient-figure-management} for more details.

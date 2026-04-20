@@ -1,4 +1,4 @@
-name: Build and Deploy to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -14,21 +14,18 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Build LaTeX Document
-        uses: xu-cheng/texlive-action@v3
-        with:
-          os: alpine # Use Alpine for a smaller image
-          run: |
-            latexmk
-        
-      - name: Export Files for GitHub Pages
+      - name: Move PDF to output directory
         run: |
-          mkdir -p target
-          cp main.pdf LICENSE target/
-          cd target
+          if [ -f "main.pdf" ]; then
+            mkdir -p output
+            mv main.pdf output/
+          else
+            echo "Error: PDF file not found. Please commit the generated PDF to the repository."
+            exit 1
+          fi
 
-      - name: Deploy to GitHub Pages
+      - name: Upload PDF to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./target
+          publish_dir: ./output

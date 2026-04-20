@@ -34,7 +34,7 @@
 *.pdfsync
 
 # Build directories
-*.pdf
+# *.pdf
 *.ps
 
 # Index files

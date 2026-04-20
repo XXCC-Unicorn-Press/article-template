@@ -1,0 +1,15 @@
+repos:
+  - repo: local
+    hooks:
+      - id: sync-svg-to-png
+        name: Export Inkscape SVG files to PNG
+        files: \.(svg|png)$
+        language: script
+        entry: ./figures/inkscape/export.sh
+        pass_filenames: true
+      - id: check-pdf
+        name: Check if PDF file exists and is up to date
+        files: \.(tex|bib|cls|sty|svg|jpg|jpeg|png|pdf)$
+        language: python
+        entry: python3 ./check.py
+        pass_filenames: false

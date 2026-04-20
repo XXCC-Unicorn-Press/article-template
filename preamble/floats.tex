@@ -57,12 +57,13 @@
 %% Support subfigure.
 \usepackage{subcaption}
 
-%% Set the counter for figures and tables to be per section.
-\counterwithin{figure}{section}
-\counterwithin{table}{section}
-
-% Use the same counter for figures and tables.
+%% Set the counter for figures, tables, and equations to be per section.
+\newcounter{figtabeq}[section]
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+\renewcommand{\theequation}{\thesection.\arabic{equation}}
 \makeatletter
-\let\c@figure\c@table
-\let\c@equation\c@table
+\let\c@figure\c@figtabeq
+\let\c@table\c@figtabeq
+\let\c@equation\c@figtabeq
 \makeatother

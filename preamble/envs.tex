@@ -1,11 +1,4 @@
 \usepackage{keytheorems}
-\usepackage[nameinlink]{cleveref}
-
-%% Helpers for theorem styles and environments.
-%% NOTE: cleveref doesn't work well with \newtheorem{...}[theorem]{...},
-%%   so we use aliascnt to create theorem environments that share the same counter as the main theorem environment.
-\newcounter{thmenvcnt}[section]
-\renewcommand{\thethmenvcnt}{\thesection.\arabic{thmenvcnt}}
 
 % Create a new theorem environment that shares the counter.
 %   #1 - the name of the new environment
@@ -17,16 +10,20 @@
 %   #7 - (optional) the Cref plural name (defaults to #6 + 's')
 \NewDocumentCommand{\newtheoremalias}{m m O{} O{\MakeLowercase{#2}} O{#4s} O{#2} O{#6s}}{%
   \newkeytheorem{#1}[
+    sibling=table,
     title={#2},
-    sibling=thmenvcnt,
-    refname={#4,#5},
-    Refname={#6,#7},
     qed={#3} 
   ]
   \newkeytheorem{#1*}[
     title={#2},
     numbered=no,
   ]
+  \zcRefTypeSetup{#1}{
+    name-sg = {#4},
+    name-pl = {#5},
+    Name-sg = {#6},
+    Name-pl = {#7},
+  }
 }
 
 %% Theorem styles.
@@ -66,13 +63,7 @@
 % todo notes
 \newcommand{\todo}[1]{%
   \PackageWarning{TODO}{#1}%
-  \vskip0.5em%
+  \vspace{0.5em}%
   \noindent\textcolor{red}{\textbf{TODO.}~#1}%
-  \vskip0.5em%
+  \vspace{0.5em}%
 }
-
-%% Cross-reference styles.
-\NewCommandCopy{\crefOrig}{\cref}
-\NewCommandCopy{\CrefOrig}{\Cref}
-\renewcommand{\cref}[1]{\textsf{\crefOrig{#1}}}
-\renewcommand{\Cref}[1]{\textsf{\CrefOrig{#1}}}

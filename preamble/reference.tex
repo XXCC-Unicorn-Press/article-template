@@ -1,5 +1,8 @@
 %% Set up cross-referencing and hyperlinks.
 \usepackage{hyperref}
+\usepackage{zref-titleref}
+\usepackage{zref-clever}
+\zcsetup{noabbrev}
 \hypersetup{
   linktoc = all,
   colorlinks = true,
@@ -13,18 +16,103 @@
   pdfauthor = {\docauthor},
 }
 
-%% Set up citation style.
+%% Set up cross-referencing style.
+\usepackage[most]{tcolorbox}
 
-% biblatex configuration
-\usepackage[style=numeric, sorting=none, backend=biber]{biblatex}
-\DeclareFieldFormat{labelnumberwidth}{\texttt{\mkbibbrackets{#1}}}
-\DeclareFieldFormat{url}{\newline\texttt{URL: }\url{#1}}
-\DeclareFieldFormat{doi}{\newline\texttt{DOI: }\href{https://doi.org/#1}{\nolinkurl{#1}}}
-\DeclareFieldFormat{eprint:arxiv}{\newline\texttt{arXiv: }\href{https://arxiv.org/abs/#1}{\nolinkurl{#1}}}
+% colors
+\definecolor{UrlColor}{RGB}{255,127,100}
+\definecolor{CiteColor}{RGB}{127,230,252}
 
-% bibliography file
-\addbibresource{references.bib}
+% styles for boxes
+\tcbset{
+  link/.style={
+    nobeforeafter, box align=base, boxsep=0em, before upper={\vphantom{]}},
+    left=0.15em, right=0.15em, top=0.25ex, bottom=0.05ex,
+    arc=0.1em, rounded corners=all, boxrule=0.3mm,
+    grow sidewards by=0.05em, enlarge bottom by=-0.05ex, enlarge top by=-0.4ex,
+  }
+}
+\tcbset{
+  refbox/.style ={colframe=black!30, colback=black!3, fontupper=\sffamily},
+  pagebox/.style={refbox, boxsep=0.1ex, bottom=0.25ex, fontupper=\ttfamily},
+  hrefbox/.style={colframe=black!10!UrlColor!70, colback=UrlColor!15},
+  citebox/.style={left=0em, right=0em, bottom=0.25ex, colframe=black!10!CiteColor!80, colback=CiteColor!20, fontupper=\ttfamily},
+}
+\NewTCBox{\refbox} {!O{}}{link,refbox, #1}
+\NewTCBox{\pagebox}{!O{}}{link,pagebox,#1}
+\NewTCBox{\hrefbox}{!O{}}{link,hrefbox,#1}
+\NewTCBox{\citebox}{!O{}}{link,citebox,#1}
 
-% \cite style
-\NewCommandCopy{\mkbibbracketsOrig}{\mkbibbrackets}
-\renewcommand{\mkbibbrackets}[1]{\texttt{\mkbibbracketsOrig{#1}}}
+% save original commands
+\NewCommandCopy{\hrefOrig}{\href}
+\NewCommandCopy{\urlOrig}{\url}
+
+% link command with boxes
+\RenewDocumentCommand{\href}{O{} m m}{\hrefOrig{#2}{\hrefbox[#1]{#3}}}
+\RenewDocumentCommand{\url}{O{} m}{\href[#1]{#2}{\nolinkurl{#2}}}
+
+% cross-reference command with boxes
+\DeclareDocumentCommand{\Cref}{s m}{%
+  \IfBooleanTF{#1}
+    {% multiple references
+      \small\refbox{\zcref[S]{#2}}%
+    }
+    {% single reference
+      \hyperref[#2]{%
+          \small\refbox{%
+            \zcref*[S,noref]{#2}~\zcref*[S,noname]{#2}%
+          }% 
+        }%
+    }%
+}
+\DeclareDocumentCommand{\cref}{s m}{%
+  \IfBooleanTF{#1}
+    {% multiple references
+      \small\refbox{\zcref{#2}}%
+    }
+    {% single reference
+      \hyperref[#2]{%
+        \small\refbox{%
+          \zcref*[noref]{#2}~\zcref*[noname]{#2}%
+        }% 
+      }%
+    }
+}
+
+% cite command with boxes
+\DeclareOuterCiteDelims{cite}{}{}
+\renewbibmacro*{cite}{%
+  \printtext[bibhyperref]{%
+    \citebox{%
+      \iffieldundef{postnote}{}{%
+        {\normalfont\small\hspace{0.18em}\printfield{postnote}\hspace{0.15em}}%
+      }%
+      \lbrack%
+      \printfield{labelprefix}%
+      \printfield{labelnumber}%
+      \ifbool{bbx:subentry}{\printfield{entrysetcount}}{}%
+      \rbrack%
+    }%
+  }%
+}
+\renewbibmacro*{postnote}{}
+\renewcommand*{\multicitedelim}{\space}
+
+% back-reference command with boxes
+\NewDocumentCommand{\pagelink}{O{} m}{\hyperlink{page.#2}{\pagebox[#1]{#2}}}
+\makeatletter
+\DeclareListFormat{pageref}{%
+  \ifnumless{\abx@pagerefstyle}{0}
+    {%
+      \usebibmacro{list:plain}%
+      \ifhyperref{\pagelink{#1}}{#1}%
+    }
+    {%
+      \ifnumequal{\value{listcount}}{1}
+        {\usebibmacro{pageref:init}}{}%
+      \usebibmacro{pageref:comp}{#1}%
+      \ifnumequal{\value{listcount}}{\value{liststop}}
+        {\usebibmacro{pageref:dump}}{}%
+    }%
+}
+\makeatother

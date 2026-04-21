@@ -13,17 +13,17 @@ In \LaTeX\ project, it is a good practice to name files according to the followi
 \end{itemize}
 Here are some examples of good filenames:
 \begin{itemize}
-  \item \texttt{introduction.tex}
-  \item \texttt{some-tips.tex}
-  \item \texttt{fermats-last-theorem.tex}
-  \item \texttt{portrait-of-shakespeare.png}
+  \item \filebox{introduction.tex}
+  \item \filebox{some-tips.tex}
+  \item \filebox{fermats-last-theorem.tex}
+  \item \filebox{portrait-of-shakespeare.png}
 \end{itemize}
 Here are some examples of bad filenames:
 \begin{itemize}
-  \item \texttt{section1.tex} (not descriptive, and the index may change)
-  \item \texttt{some tips.tex} (contains spaces)
-  \item \texttt{fermat's-last-theorem.tex} (contains apostrophe)
-  \item \texttt{portrait-of-Shakespeare.png} (contains uppercase letters)
+  \item \filebox{section1.tex} (not descriptive, and the index may change)
+  \item \filebox{some tips.tex} (contains spaces)
+  \item \filebox{fermat's-last-theorem.tex} (contains apostrophe)
+  \item \filebox{portrait-of-Shakespeare.png} (contains uppercase letters)
 \end{itemize}
 
 \subsection{Cross-references}
@@ -75,8 +75,8 @@ In \Cref{sec:introduction}, we display an example figure in \Cref{fig:example} a
 
 When you need to cite a reference in your article, it is best to use \textbf{citation keys} instead of hardcoding the reference information. This way, if you need to change the reference information (e.g., author name, title, year), you can simply update the bibliography file, and all citations will automatically update.
 
-Suppose you have a bibliography item in your \texttt{references.bib} file like this:
-\begin{tcblisting}{listing only}
+Suppose you have a bibliography item in your \filebox{references.bib} file like this:
+\begin{tcblisting}{listing only, sharp corners, boxrule=0.5pt, colback=white}
 @book{example-book,
   author = {A Person},
   title = {A Book},
@@ -84,19 +84,19 @@ Suppose you have a bibliography item in your \texttt{references.bib} file like t
 }
 \end{tcblisting}
 You can cite this reference in your article using \verb|\cite{example-book}| command.
-This will automatically insert the correct citation index wrapped by brackets (e.g., \texttt{[1]}).
-You can also specify some additional data by typing \verb|\cite[...]{example-book}|, and the additional data will be included in the brackets (e.g., \texttt{[1, Section 2.1]}).
+This will automatically insert the correct citation index wrapped by brackets (e.g., \cite{article-template}).
+You can also specify some additional data by typing \verb|\cite[...]{example-book}|, and the additional data will be included in the brackets (e.g., \cite[Section 1]{article-template}).
 
 \subsection{Figures}
 
 Figures can be inserted by using \verb|\begin{figure} ... \end{figure}| environment.
 In this environment, there are usually three lines:
 \begin{itemize}
-  \item \verb|\includegraphics|, which specifies the image to insert and its size.
-  \item \verb|\caption|, which specifies the caption of the figure.
-  \item \verb|\label|, which specifies the label for cross-referencing the figure.
+  \item \macro{\includegraphics} $\to$ the figure to insert and its size.
+  \item \macro{\caption} $\to$ the caption of the figure.
+  \item \macro{\label} $\to$ the label for cross-referencing the figure.
 \end{itemize}
-Remember to place the \verb|\label| command right after the \verb|\caption| command, so that the cross-reference will display the correct figure number.
+Remember to place the \macro{\label} command right after the \macro{\caption} command, so that the cross-reference will display the correct figure number.
 
 If your caption has multiple paragraphs (contain a blank line), you have to specify a short caption by using \verb|\caption[Short caption]{Long caption}|.
 Otherwise, it will cause an error.

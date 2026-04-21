@@ -12,18 +12,18 @@ sync-template init gh:XXCC-Unicorn-Press/article-template <project-directory>
 \end{tcblisting}
 Alternatively, you can also clone the template repository your self by running the following command: 
 \begin{tcblisting}{listing only, sharp corners, boxrule=0.5pt, colback=white}
-  git clone --depth 1 https://github.com/XXCC-Unicorn-Press/article-template.git <project-directory>
+git clone --depth 1 https://github.com/XXCC-Unicorn-Press/article-template.git <project-directory>
 \end{tcblisting}
 
 \subsection{Build the project}
 
 After initializing the project, you can build it by running \verb|latexmk| in the project directory.
-You will get a PDF file named \texttt{main.pdf} in the project directory after the build is complete.
+You will get a PDF file named \filebox{main.pdf} in the project directory after the build is complete.
 The default result is exactly this document you are reading.
 
 \subsection{Modify the metadata}
 
-You can modify the metadata in \texttt{preamble/meta.tex}.
+You can modify the metadata in \filebox{preamble/meta.tex}.
 See \Cref{tab:metadata} for the description of each metadata.
 
 \begin{table}[!ht]
@@ -45,16 +45,16 @@ See \Cref{tab:metadata} for the description of each metadata.
 
 \subsection{Write the content}
 
-The content of the paper is organized in the \texttt{content} directory.
+The content of the paper is organized in the \dirbox{content/} directory.
 It is a good habit to create a new file per section and name the file after the section name.
 
-You should \verb|\input| the content files in \texttt{main.tex} in the order they appear in the paper.
+You should \macro{\input} the content files in \file{main.tex} in the order they appear in the paper.
 
 \subsection{Insert a figure}
 
-To insert a figure, first place the figure file in the \texttt{figures} directory, and then use the \verb|\includegraphics| command to include the figure in the content file.
+To insert a figure, first place the figure file in the \dirbox{figures/} directory, and then use \macro{\includegraphics} to include the figure in the content file.
 
-If you are using Inkscape to create your figures, you can place the source files in \texttt{figures/inkscape} and run \verb|./figures/inkscape/export.sh| to export all the \verb|.svg| files to \verb|.png| files, which can be included in the document directly.
+If you are using Inkscape to create your figures, you can place the source files in \dirbox{figures/inkscape/} and run \custommacro{./figures/inkscape/export.sh} to export all the \filebox{.svg} files to \filebox{.png} files, which can be included in the document directly.
 
 See \Cref{sec:convenient-figure-management} for more details on figure management.
 

@@ -6,25 +6,25 @@ This template provides an out-of-box experience for writing beautiful articles w
 
 The project structure is organized as follows:
 \begin{itemize}
-  \item \texttt{main.tex}: The main entry point of the document.
-  \item \texttt{references.bib}: The bibliography file containing all the references used in the article.
-  \item \texttt{preamble/}: A directory containing various preamble files for different purposes, such as layout design, reference management, math formatting, etc.
-  \item \texttt{content/}: A directory containing the content of the article, organized into different sections and subsections.
-  \item \texttt{figures/}: A directory for storing all the figures used in the article.
+  \item \filebox{main.tex}: The main entry point of the document.
+  \item \filebox{references.bib}: The bibliography file containing all the references used in the article.
+  \item \dirbox{preamble/}: A directory containing various preamble files for different purposes, such as layout design, reference management, math formatting, etc.
+  \item \dirbox{content/}: A directory containing the content of the article, organized into different sections and subsections.
+  \item \dirbox{figures/}: A directory for storing all the figures used in the article.
 \end{itemize}
 
 By organizing the project in this way, it becomes easier to manage and maintain the document, especially as it grows in size and complexity.
 
 It is \textbf{recommended} that files are named in lowercase with hyphens as separators.
-For content files, they can be named according to the section names, such as \texttt{fermats-last-theorem.tex} for a section named ``Fermat's Last Theorem''.
+For content files, they can be named according to the section names, such as \filebox{fermats-last-theorem.tex} for a section named ``Fermat's Last Theorem''.
 
 \subsection{Convenient figure management}
 \label{sec:convenient-figure-management}
 
-The \verb|\includegraphics| command can now recognize paths relative to \texttt{figures/} and \texttt{figures/inkscape} directories, without need to specify the full path.
+The \macro{\includegraphics} macro can now recognize paths relative to \dirbox{figures/} and \dirbox{figures/inkscape/} directories, without need to specify the full path.
 
-You can put your Inkscape source files in \texttt{figures/inkscape} and run \verb|./figures/inkscape/export.sh| to export all the \verb|.svg| files to \verb|.png| files, which can be included in the document directly.
-If you use \texttt{git}, the script will be automatically run before each commit to ensure that the exported \verb|.png| files are always up-to-date with the source \verb|.svg| files.
+You can put your Inkscape files in \dirbox{figures/inkscape/} and run \custommacro{./figures/inkscape/export.sh} to export all the \filebox{.svg} files to \filebox{.png} files, which can be included in the document directly.
+If you use \texttt{git}, the script will be automatically run before each commit to ensure that the exported \filebox{.png} files are always up-to-date with the source \filebox{.svg} files.
 
 \begin{figure}[!ht]
   \includegraphics[width=0.3\textwidth]{inkscape-image.png}
@@ -32,16 +32,16 @@ If you use \texttt{git}, the script will be automatically run before each commit
   \label{fig:inkscape-figure}
 \end{figure}
 
-The figures are automatically centered, so there is no need to write \verb|\centering| every time.
+The figures are automatically centered, so there is no need to write \macro{\centering} every time.
 It is \textbf{recommended} to use \verb|[!ht]| as the figure placement specifier to allow more flexibility in figure placement.
 An example of including a figure is shown below (see \Cref{fig:example-figure} for the result):
-\begin{verbatim}
+\begin{tcblisting}{listing only, sharp corners, boxrule=0.5pt, colback=white}
 \begin{figure}[!ht]
   \includegraphics[width=0.5\textwidth]{example-image-golden}
   \caption{An example figure.}
   \label{fig:example-figure}
 \end{figure}
-\end{verbatim}
+\end{tcblisting}
 
 \begin{figure}[!ht]
   \includegraphics[width=0.5\textwidth]{example-image-golden}
@@ -49,9 +49,9 @@ An example of including a figure is shown below (see \Cref{fig:example-figure} f
   \label{fig:example-figure}
 \end{figure}
 
-Side captions are supported by the \texttt{floatrow} package, and you can use the \verb|\fcapside| command to create figures with side captions.
+Side captions are supported by the \package{floatrow} package, and you can use the \macro{\fcapside} command to create figures with side captions.
 Here is an example of how to use it (see \Cref{fig:figure-with-side-caption} for the result):
-\begin{verbatim}
+\begin{tcblisting}{listing only, sharp corners, boxrule=0.5pt, colback=white}
 \begin{figure}[!ht]
   \fcapside{
     \caption[A figure with a side caption]{%
@@ -68,7 +68,7 @@ Here is an example of how to use it (see \Cref{fig:figure-with-side-caption} for
     \includegraphics[width=0.4\textwidth]{example-image-golden}
   }
 \end{figure}
-\end{verbatim}
+\end{tcblisting}
 
 \begin{figure}[!ht]
   \fcapside{
@@ -93,8 +93,8 @@ The template provides many powerful macros to help you write math more convenien
 
 \subsubsection{Math macros declaration}
 
-The \verb|\Declare...| macros allow you to declare new math operators, categories, texts, and mathcal symbols with a simple syntax.
-For example, if you want to define \verb|\CC| to be \verb|\mathcal{C}|, you can simply write \verb|\DeclareCals{C}|.
+The \custommacro{\Declare...} macros allow you to declare new math operators, categories, texts, and mathcal symbols with a simple syntax.
+For example, if you want to define \macro{\CC} to be \verb|\mathcal{C}|, you can simply write \verb|\DeclareCals{C}|.
 See \Cref{tab:math-macros-declaration-helpers} for a summary of the available macros and their usage.
 
 \begin{table}[!ht]
@@ -120,22 +120,22 @@ See \Cref{tab:math-macros-declaration-helpers} for a summary of the available ma
 
 \subsubsection{Custom quotient macro}
 
-The \verb|\quotient| macro allows you to render pretty quotient expressions with customizable spacing and alignment.
+The \custommacro{\quotient} macro allows you to render pretty quotient expressions with customizable spacing and alignment.
 For example, \verb|\quotient{X}{\sim}| renders as $\quotient{X}{\sim}$.
 
-The full syntax of the \verb|\quotient| macro is as follows:
-\begin{verbatim}
-  \quotient
-    [<raise amount for numerator>] % default: 0.2
-    [<negative space amount before slash>] % default: 1.7
-    {<numerator>}
-    {<denominator>}
-\end{verbatim}
+The full syntax of the \custommacro{\quotient} macro is as follows:
+\begin{tcblisting}{listing only, sharp corners, boxrule=0.5pt, colback=white}
+\quotient
+  [<raise amount for numerator>] % default: 0.2
+  [<negative space amount before slash>] % default: 1.7
+  {<numerator>}
+  {<denominator>}
+\end{tcblisting}
 
 \subsubsection{Stacked arrows}
 
-The \verb|\doublestack|, \verb|\triplestack|, and \verb|\quadrustack| macros allow you to stack multiple symbols on top of each other with customizable spacing.
-When the stacked symbols are \verb|\leftarrow| or \verb|\rightarrow|, there are shortcuts \verb|\doubleleftarrows|, \verb|\doublerightarrows|, etc.
+The \custommacro{\doublestack}, \custommacro{\triplestack}, and \custommacro{\quadrustack} macros allow you to stack multiple symbols on top of each other with customizable spacing.
+When the stacked symbols are \custommacro{\leftarrow} or \custommacro{\rightarrow}, there are shortcuts \custommacro{\doubleleftarrows}, \custommacro{\doublerightarrows}, etc.
 Here is the effect:
 \[
   A \to B \doublerightarrows C \triplerightarrows D \quadrurightarrows E
@@ -150,7 +150,7 @@ Each environment has a starred version that is unnumbered, e.g., \verb|\begin{th
 You can add an optional argument (e.g. \verb|\begin{theorem}[Fermat's Last Theorem]|) to specify a custom title for the environment, which will be displayed after the environment name and number.
 
 To refer to these environments, first label them with \verb|\label{...}| after the \verb|\begin{...}| command, and then use \verb|\cref{...}| or \verb|\Cref{...}| to refer to them.
-The \verb|\cref| command produces a lowercase reference, while \verb|\Cref| produces a capitalized reference.
+The \custommacro{\cref} command produces a lowercase reference, while \custommacro{\Cref} produces a capitalized reference.
 These macros can also handle multiple references at once, e.g. \verb|\cref{thm1,thm2}| will produce a reference to both \texttt{thm1} and \texttt{thm2}.
 
 See \Cref{fig:theorem-environments-and-cross-references} for an example of using these environments and cross-references.
@@ -173,13 +173,22 @@ See \Cref{fig:theorem-environments-and-cross-references} for an example of using
   There are no positive integers $a$, $b$, and $c$ such that $a^n + b^n = c^n$ for any integer $n > 2$.
 \end{theorem}
 
-You can refer to the theorems above using \verb|\cref|: \cref{thm:example-theorem} and \verb|\Cerf|: \Cref{thm:example-theorem}.
-You can also refer to several theorems at once: \cref{thm:example-theorem,thm:fermats-last-theorem}.
+You can refer to the theorems above using
+\begin{itemize}
+  \item \custommacro{\cref} $\to$ \cref{thm:example-theorem}
+  \item \custommacro{\Cref} $\to$ \Cref{thm:example-theorem}.
+\end{itemize}
+You can also refer to multiple theorems at once
+\begin{itemize}
+  \item \custommacro{\Cref*} $\to$ \Cref*{thm:example-theorem,thm:fermats-last-theorem}.
+\end{itemize}
   \end{tcblisting}
 
   \caption{Example of theorem environments and cross-references.}
   \label{fig:theorem-environments-and-cross-references}
 \end{figure}
+
+There is also a \custommacro{\todo} macro that you can use to add TODO notes in the document, which will be highlighted in red and display a warning to remind you to address them before finalizing the document.
 
 \subsection{Beautiful layout and typography}
 
@@ -197,17 +206,17 @@ Here are most of the features:
 \subsection{Git integration}
 
 The template is designed to work well with \texttt{git} for version control.
-The \texttt{.gitignore} file is set up to ignore auxiliary files generated by \LaTeX, so that your repository stays clean and only contains the source files.
+The \file{.gitignore} file is set up to ignore auxiliary files generated by \LaTeX, so that your repository stays clean and only contains the source files.
 
 \texttt{pre-commit} is used to register hooks that run before each commit.
 See \url{https://pre-commit.com/} for more details about \texttt{pre-commit}.
-The hooks are defined in the \texttt{.pre-commit-config.yaml} file, and they include:
+The hooks are defined in the \file{.pre-commit-config.yaml} file, and they include:
 \begin{itemize}
-  \item Check whether the exported \verb|.png| files in \texttt{figures/inkscape} are up-to-date with the source \verb|.svg| files, and if not, run the export script to update them.
-  \item Check whether the output \verb|.pdf| file is up-to-date with the source files.
+  \item Check whether the exported \filebox{.png} files in \dirbox{figures/inkscape/} are up-to-date with the source \filebox{.svg} files, and if not, run the export script to update them.
+  \item Check whether the output \filebox{.pdf} file is up-to-date with the source files.
 \end{itemize}
 By using these hooks, you can ensure that your exported figures and output PDF are always up-to-date with your source files, which can help prevent issues when pushing to a remote repository or sharing your work with others.
 
 A GitHub action is also set up to automatically publish the PDF output to GitHub Pages whenever you push to the \texttt{main} branch, so that you can easily share your article with others by providing a link to the published PDF.
-Since Inkscape is not available in the GitHub action environment, and the compilation of the document is not stable, all compilation steps should be done locally before pushing to the remote repository, and the intermediate files including exported \verb|.png| files and the output \verb|.pdf| file should be committed to the repository to ensure that the published PDF is always up-to-date with the source files.
-They are not ignored by \texttt{.gitignore} for this reason.
+Since Inkscape is not available in the GitHub action environment, and the compilation of the document is not stable, all compilation steps should be done locally before pushing to the remote repository, and the intermediate files including exported \filebox{.png} files and the output \filebox{.pdf} file should be committed to the repository to ensure that the published PDF is always up-to-date with the source files.
+They are not ignored by \file{.gitignore} for this reason.

@@ -84,13 +84,14 @@
 \renewbibmacro*{cite}{%
   \printtext[bibhyperref]{%
     \citebox{%
-      \iffieldundef{postnote}{}{%
-        {\normalfont\small\hspace{0.18em}\printfield{postnote}\hspace{0.15em}}%
-      }%
       \lbrack%
       \printfield{labelprefix}%
       \printfield{labelnumber}%
       \ifbool{bbx:subentry}{\printfield{entrysetcount}}{}%
+      \iffieldundef{postnote}{}{%
+        ,\hspace*{0.1em}%
+        {\sffamily\small\printfield{postnote}}%
+      }%
       \rbrack%
     }%
   }%

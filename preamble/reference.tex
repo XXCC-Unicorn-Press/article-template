@@ -53,30 +53,36 @@
 
 % cross-reference command with boxes
 \DeclareDocumentCommand{\Cref}{s m}{%
-  \IfBooleanTF{#1}
-    {% multiple references
-      \small\refbox{\zcref[S]{#2}}%
-    }
-    {% single reference
-      \hyperref[#2]{%
-          \small\refbox{%
-            \zcref*[S,noref]{#2}~\zcref*[S,noname]{#2}%
-          }% 
-        }%
-    }%
+  {%
+    \normalfont
+    \IfBooleanTF{#1}
+      {% multiple references
+        \small\refbox{\zcref[S]{#2}}%
+      }
+      {% single reference
+        \hyperref[#2]{%
+            \small\refbox{%
+              \zcref*[S,noref]{#2}~\zcref*[S,noname]{#2}%
+            }% 
+          }%
+      }%
+  }
 }
 \DeclareDocumentCommand{\cref}{s m}{%
-  \IfBooleanTF{#1}
-    {% multiple references
-      \small\refbox{\zcref{#2}}%
-    }
-    {% single reference
-      \hyperref[#2]{%
-        \small\refbox{%
-          \zcref*[noref]{#2}~\zcref*[noname]{#2}%
-        }% 
-      }%
-    }
+  {%
+    \normalfont
+    \IfBooleanTF{#1}
+      {% multiple references
+        \small\refbox{\zcref{#2}}%
+      }
+      {% single reference
+        \hyperref[#2]{%
+          \small\refbox{%
+            \zcref*[noref]{#2}~\zcref*[noname]{#2}%
+          }% 
+        }%
+      }
+  }
 }
 
 % cite command with boxes
